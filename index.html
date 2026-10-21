@@ -1,0 +1,648 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#111111">
+<title>REF HOCKEY — Правила судейства</title>
+
+<style>
+@font-face {
+  font-family: "Stapel";
+  src: url("fonts/Stapel-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Stapel";
+  src: url("fonts/Stapel-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-display: swap;
+}
+
+:root {
+  --bg: #111111;
+  --panel: #1d1d1d;
+  --panel2: #292929;
+  --orange: #ff5900;
+  --text: #f7f7f7;
+  --muted: #a7a7a7;
+  --line: #373737;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Stapel", Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+button, input { font: inherit; }
+button { cursor: pointer; }
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(17,17,17,.96);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(12px);
+}
+
+.header-inner {
+  max-width: 1150px;
+  padding: 16px 22px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -1px;
+}
+
+.brand-mark {
+  background: var(--orange);
+  color: white;
+  padding: 3px 9px;
+  font-size: 23px;
+  font-weight: 700;
+}
+
+.season {
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+main {
+  max-width: 1150px;
+  margin: auto;
+  padding: 25px 22px 90px;
+}
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  min-height: 300px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: linear-gradient(
+    90deg,
+    #211b19 0%, #211b19 33%,
+    #e94d00 33%, #ff5900 67%,
+    #211b19 67%, #211b19 100%
+  );
+}
+
+.hero::after {
+  content: "ОСФ";
+  position: absolute;
+  top: 48px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-size: clamp(100px, 23vw, 245px);
+  font-weight: 700;
+  line-height: 1;
+  color: rgba(255,255,255,.96);
+  letter-spacing: -12px;
+  pointer-events: none;
+}
+
+.hero-top, .hero-bottom {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-top {
+  font-size: 12px;
+  font-weight: 700;
+  border-bottom: 2px solid white;
+  padding-bottom: 7px;
+}
+
+.hero h1 {
+  position: relative;
+  z-index: 1;
+  max-width: 540px;
+  margin: 45px 0;
+  font-size: clamp(28px, 5vw, 52px);
+  line-height: 1.12;
+  text-transform: uppercase;
+  letter-spacing: -2px;
+}
+
+.hero-bottom {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.search-wrap {
+  display: flex;
+  margin: 24px 0;
+  background: var(--panel);
+  border: 1px solid var(--line);
+}
+
+.search-wrap span {
+  padding: 14px;
+  color: var(--orange);
+  font-size: 20px;
+}
+
+.search-wrap input {
+  width: 100%;
+  min-width: 0;
+  background: transparent;
+  color: white;
+  border: 0;
+  outline: none;
+  padding: 14px 10px 14px 0;
+}
+
+.search-wrap:focus-within {
+  border-color: var(--orange);
+}
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  margin-bottom: 25px;
+  padding-bottom: 4px;
+}
+
+.tab {
+  flex-shrink: 0;
+  background: var(--panel);
+  color: #bbb;
+  border: 1px solid var(--line);
+  padding: 11px 17px;
+}
+
+.tab.active {
+  background: var(--orange);
+  color: white;
+  border-color: var(--orange);
+}
+
+.section-title {
+  font-size: 21px;
+  margin: 25px 0 15px;
+  letter-spacing: -1px;
+}
+
+.rule-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.rule-card {
+  border: 1px solid var(--line);
+  background: var(--panel);
+  padding: 19px;
+  transition: border-color .2s;
+}
+
+.rule-card:hover { border-color: var(--orange); }
+
+.rule-number {
+  color: var(--orange);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.rule-card h3 {
+  margin: 8px 0;
+  font-size: 17px;
+  line-height: 1.4;
+}
+
+.rule-card p {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.action {
+  width: 100%;
+  margin-top: 12px;
+  padding: 12px;
+  text-align: left;
+  color: white;
+  background: var(--panel2);
+  border: 1px solid var(--line);
+}
+
+.action:hover {
+  border-color: var(--orange);
+}
+
+.action.primary {
+  text-align: center;
+  background: var(--orange);
+  border-color: var(--orange);
+  font-weight: 700;
+}
+
+.rule-detail {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+
+.rule-text {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  color: #e0e0e0;
+}
+
+.situation {
+  margin-top: 12px;
+  border: 1px solid var(--line);
+  background: #171717;
+}
+
+.situation-question {
+  padding: 15px;
+}
+
+.situation-label {
+  color: var(--orange);
+  font-size: 10px;
+  letter-spacing: 1px;
+  font-weight: 700;
+}
+
+.answer {
+  border-top: 1px solid var(--line);
+  padding: 15px;
+  background: #24201e;
+}
+
+.answer strong { color: var(--orange); }
+
+.gesture-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.gesture {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  padding: 17px;
+}
+
+.gesture-image {
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  background: #29201c;
+  color: var(--orange);
+  font-size: 42px;
+  margin-bottom: 12px;
+}
+
+.gesture h3 {
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.gesture p {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.source {
+  display: block;
+  margin-top: 28px;
+  padding: 18px;
+  background: var(--panel);
+  border-left: 3px solid var(--orange);
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.source a { color: var(--orange); }
+
+.empty {
+  grid-column: 1 / -1;
+  padding: 35px;
+  text-align: center;
+  color: var(--muted);
+  border: 1px dashed var(--line);
+}
+
+footer {
+  border-top: 1px solid var(--line);
+  padding: 25px;
+  color: var(--muted);
+  text-align: center;
+  font-size: 11px;
+}
+
+[hidden] { display: none !important; }
+
+@media (max-width: 650px) {
+  .header-inner { padding: 12px 15px; }
+  main { padding: 17px 14px 60px; }
+  .hero { min-height: 260px; padding: 20px; }
+  .hero h1 { margin: 48px 0; }
+  .rule-list { grid-template-columns: 1fr; }
+  .gesture-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .section-title { font-size: 19px; }
+  .rule-card { padding: 16px; }
+}
+</style>
+</head>
+
+<body>
+<header>
+  <div class="header-inner">
+    <div class="brand">
+      <span class="brand-mark">R</span>
+      <span>REF HOCKEY</span>
+    </div>
+    <span class="season">2026 / 2027</span>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="hero-top">РУКОВОДСТВО ПО СУДЕЙСТВУ</div>
+    <h1>Правила<br>хоккея</h1>
+    <div class="hero-bottom">ОСФ · СЕЗОН 2026–2027</div>
+  </section>
+
+  <div class="search-wrap">
+    <span>⌕</span>
+    <input id="search" type="search"
+      placeholder="Найти правило, пункт или ситуацию..."
+      aria-label="Поиск по справочнику">
+  </div>
+
+  <nav class="tabs" aria-label="Разделы">
+    <button class="tab active" data-page="rules">Правила</button>
+    <button class="tab" data-page="gestures">Жесты судей</button>
+  </nav>
+
+  <section id="rules-page">
+    <h2 class="section-title">Справочник правил</h2>
+    <p style="color:var(--muted)">
+      Выбери правило, чтобы открыть текст и игровые ситуации.
+    </p>
+    <div id="rules" class="rule-list"></div>
+  </section>
+
+  <section id="gestures-page" hidden>
+    <h2 class="section-title">Жесты судей</h2>
+    <p style="color:var(--muted)">
+      Справочник сигналов главного и линейных судей.
+    </p>
+    <div id="gestures" class="gesture-grid"></div>
+  </section>
+
+  <div class="source">
+    <strong style="color:white">Официальный источник</strong><br>
+    Руководство по судейству ОСФ, сезон 2026–2027.<br>
+    <a href="https://vks.fhr.ru/upload/iblock/055/05563c1424f3d23970f36156710281d4.pdf"
+       target="_blank" rel="noopener">
+       Открыть оригинальный документ ФХР ↗
+    </a>
+  </div>
+</main>
+
+<footer>
+  REF HOCKEY · СПРАВОЧНИК ХОККЕЙНОГО АРБИТРА
+</footer>
+
+<script>
+/*
+  ДОБАВЛЯЙ СЮДА ПРАВИЛА ИЗ ОФИЦИАЛЬНОГО РУКОВОДСТВА.
+  Текст, ситуации и ответы не должны противоречить источнику.
+*/
+const rulesData = [
+  {
+    number: "01",
+    title: "Название правила",
+    text: "Вставь сюда полный официальный текст правила.\n\n1.1. Текст соответствующего пункта.\n1.2. Текст следующего пункта.",
+    situations: [
+      {
+        question: "Вставь сюда игровую ситуацию из руководства.",
+        answer: "Вставь сюда официальный ответ и обоснование.",
+        reference: "Пункт правила"
+      }
+    ]
+  },
+  {
+    number: "02",
+    title: "Название следующего правила",
+    text: "Вставь сюда текст следующего правила.",
+    situations: []
+  }
+];
+
+/*
+  Добавляй реальные жесты и их описания.
+  Для изображения укажи путь к своему файлу, например:
+  image: "images/icing.png"
+*/
+const gesturesData = [
+  {
+    title: "Название жеста",
+    description: "Официальное описание жеста из руководства.",
+    image: ""
+  }
+];
+
+const rulesElement = document.getElementById("rules");
+const gesturesElement = document.getElementById("gestures");
+const searchInput = document.getElementById("search");
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
+}
+
+function renderRules() {
+  const query = searchInput.value.trim().toLocaleLowerCase("ru");
+
+  const filtered = rulesData.filter(rule => {
+    const content = [
+      rule.number, rule.title, rule.text,
+      ...rule.situations.flatMap(s => [
+        s.question, s.answer, s.reference
+      ])
+    ].join(" ").toLocaleLowerCase("ru");
+
+    return content.includes(query);
+  });
+
+  rulesElement.innerHTML = "";
+
+  if (!filtered.length) {
+    rulesElement.innerHTML =
+      '<div class="empty">Ничего не найдено.</div>';
+    return;
+  }
+
+  filtered.forEach(rule => {
+    const card = document.createElement("article");
+    card.className = "rule-card";
+
+    card.innerHTML = `
+      <div class="rule-number">ПРАВИЛО ${escapeHTML(rule.number)}</div>
+      <h3>${escapeHTML(rule.title)}</h3>
+      <p>${rule.situations.length} игровых ситуаций</p>
+      <button class="action primary" data-open>
+        Открыть правило ↗
+      </button>
+      <div class="rule-detail" hidden>
+        <h3>Текст правила</h3>
+        <div class="rule-text">${escapeHTML(rule.text)}</div>
+        <h3>Игровые ситуации</h3>
+        <div data-situations></div>
+      </div>
+    `;
+
+    const detail = card.querySelector(".rule-detail");
+    const openButton = card.querySelector("[data-open]");
+
+    openButton.addEventListener("click", () => {
+      detail.hidden = !detail.hidden;
+      openButton.textContent = detail.hidden
+        ? "Открыть правило ↗"
+        : "Свернуть правило ↑";
+    });
+
+    const situationsBox = card.querySelector("[data-situations]");
+
+    if (!rule.situations.length) {
+      situationsBox.innerHTML =
+        '<p style="color:var(--muted)">Ситуации пока не добавлены.</p>';
+    }
+
+    rule.situations.forEach((situation, index) => {
+      const item = document.createElement("div");
+      item.className = "situation";
+
+      item.innerHTML = `
+        <div class="situation-question">
+          <div class="situation-label">
+            СИТУАЦИЯ ${index + 1}
+          </div>
+          <p>${escapeHTML(situation.question)}</p>
+          <button class="action" data-answer>
+            Показать ответ +
+          </button>
+        </div>
+        <div class="answer" hidden>
+          <strong>ОТВЕТ</strong>
+          <p>${escapeHTML(situation.answer)}</p>
+          ${situation.reference
+            ? `<small>Основание: ${escapeHTML(situation.reference)}</small>`
+            : ""}
+        </div>
+      `;
+
+      const answerButton = item.querySelector("[data-answer]");
+      const answerBox = item.querySelector(".answer");
+
+      answerButton.addEventListener("click", () => {
+        answerBox.hidden = !answerBox.hidden;
+        answerButton.textContent = answerBox.hidden
+          ? "Показать ответ +"
+          : "Скрыть ответ −";
+      });
+
+      situationsBox.appendChild(item);
+    });
+
+    rulesElement.appendChild(card);
+  });
+}
+
+function renderGestures() {
+  const query = searchInput.value.trim().toLocaleLowerCase("ru");
+
+  const filtered = gesturesData.filter(gesture =>
+    `${gesture.title} ${gesture.description}`
+      .toLocaleLowerCase("ru").includes(query)
+  );
+
+  gesturesElement.innerHTML = "";
+
+  if (!filtered.length) {
+    gesturesElement.innerHTML =
+      '<div class="empty">Жесты не найдены.</div>';
+    return;
+  }
+
+  filtered.forEach(gesture => {
+    const card = document.createElement("article");
+    card.className = "gesture";
+
+    const visual = gesture.image
+      ? `<img src="${escapeHTML(gesture.image)}"
+          alt="${escapeHTML(gesture.title)}"
+          style="width:100%;aspect-ratio:1;object-fit:contain">`
+      : '<div class="gesture-image">+</div>';
+
+    card.innerHTML = `
+      ${visual}
+      <h3>${escapeHTML(gesture.title)}</h3>
+      <p>${escapeHTML(gesture.description)}</p>
+    `;
+
+    gesturesElement.appendChild(card);
+  });
+}
+
+document.querySelectorAll("[data-page]").forEach(button => {
+  button.addEventListener("click", () => {
+    document.querySelectorAll("[data-page]").forEach(tab =>
+      tab.classList.toggle("active", tab === button)
+    );
+
+    const showRules = button.dataset.page === "rules";
+    document.getElementById("rules-page").hidden = !showRules;
+    document.getElementById("gestures-page").hidden = showRules;
+
+    renderRules();
+    renderGestures();
+  });
+});
+
+searchInput.addEventListener("input", () => {
+  renderRules();
+  renderGestures();
+});
+
+renderRules();
+renderGestures();
+</script>
+</body>
+</html>
